@@ -107,11 +107,11 @@ class hmm:
 
     # Reestimate B 
     for i in range(self.N):
-      for j in range(self.N):
+      for j in range(self.M):
         numer = 0.0 
         denom = 0.0 
-        for t in range(self.T - 1):
-          if ord(self.O[t]) - 65 == j:
+        for t in range(self.T):
+          if (ord(self.O[t]) - 65) == j:
             numer = numer + self.gamma_ti[t, i]
           denom = denom + self.gamma_ti[t, i]
         self.B[i, j] = numer/denom 
@@ -138,6 +138,7 @@ if __name__ == "__main__":
   exclude = set(string.punctuation)
   O = ''.join(ch for ch in O if ch not in exclude)
   O = ''.join(i for i in O if not i.isdigit())
+  O = O[:50000]
 
   hmm1 = hmm(2, 26, len(O), O, A, B, pi)
 
