@@ -1,3 +1,4 @@
+from nltk.corpus import brown
 import numpy as np 
 import nltk 
 import string
@@ -122,36 +123,37 @@ class hmm:
     logProb = -logProb 
     return logProb
 
+if __name__ == "__main__":
+  # Input an initial estimate of the perimeters A, B and prior
+  first = np.array([1.0/26.0 for _ in range(26)])
+  second = np.array([1.0/26.0 for _ in range(26)])
+  B = np.vstack((first, second))
+  A = np.array([[0.47468, 0.52532],[0.51656,0.48344]])
+  pi = np.array([0.51316, 0.48684])
 
-first = np.array([1.0/26.0 for _ in range(26)])
-second = np.array([1.0/26.0 for _ in range(26)])
-B = np.vstack((first, second))
-A = np.array([[0.47468, 0.52532],[0.51656,0.48344]])
-pi = np.array([0.51316, 0.48684])
+  # Let's use the brown corpus for training 
+  O = brown.words()
+  O = ''.join(O)
+  O = O.upper()
+  exclude = set(string.punctuation)
+  O = ''.join(ch for ch in O if ch not in exclude)
+  O = ''.join(i for i in O if not i.isdigit())
 
-from nltk.corpus import brown
-O = brown.words()
-O = ''.join(O)
-O = O.upper()
-exclude = set(string.punctuation)
-O = ''.join(ch for ch in O if ch not in exclude)
-O = ''.join(i for i in O if not i.isdigit())
+  hmm1 = hmm(2, 26, len(O), O, A, B, pi)
 
-hmm1 = hmm(2, 26, len(O), O, A, B, pi)
+  maxIters = 10
+  iters = 0 
+  oldLogProb = -np.inf
+  output = 0.0
 
-maxIters = 10
-iters = 0 
-oldLogProb = -np.inf
-output = 0.0
+  # Iterating the algo for 10 iterations
+  while iters < maxIters:
+    if output > oldLogProb:
+      oldLogProb = output
+    output = hmm1.train()
+    print "Ouput : " , output 
+    iters += 1 
 
-# Iterating the algo for 10 iterations
-while iters < maxIters:
-  if output > oldLogProb:
-    oldLogProb = output
-  output = hmm1.train()
-  print "Ouput : " , output 
-  iters += 1 
-
-pprint.pprint(hmm1.pi)
-pprint.pprint(hmm1.A)
-pprint.pprint(hmm1.B)
+  pprint.pprint(hmm1.pi)
+  pprint.pprint(hmm1.A)
+  pprint.pprint(hmm1.B)
