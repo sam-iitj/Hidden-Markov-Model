@@ -14,6 +14,8 @@ class hmm:
     alpha : { T X N } - values to compute at alpha step.  
     M : size of vocabulary. 
     N : size of state space. 
+    T : length of the input sequence O 
+    O : Observations 
     """
     self.N = N
     self.M = M
@@ -142,6 +144,7 @@ iters = 0
 oldLogProb = -np.inf
 output = 0.0
 
+# Iterating the algo for 10 iterations
 while iters < maxIters:
   if output > oldLogProb:
     oldLogProb = output
