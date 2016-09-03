@@ -137,12 +137,12 @@ O = ''.join(i for i in O if not i.isdigit())
 
 hmm1 = hmm(2, 26, len(O), O, A, B, pi)
 
-maxIters = 1000
+maxIters = 10
 iters = 0 
 oldLogProb = -np.inf
 output = 0.0
 
-while iters < maxIters and output > oldLogProb:
+while iters < maxIters:
   if output > oldLogProb:
     oldLogProb = output
   output = hmm1.train()
