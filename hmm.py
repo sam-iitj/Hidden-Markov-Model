@@ -48,7 +48,7 @@ class hmm:
       c = [0.0 for _ in range(self.T)]
       for i in range(self.N):
         self.alpha[0, i] = self.pi[i] * self.B[i, self.mapping[O[0]]] 
-      c[0] = c[0] + self.alpha[0, i]    
+        c[0] = c[0] + self.alpha[0, i]    
 
       # scale alpha_0(i)  
       c[0] = 1.0/c[0]
