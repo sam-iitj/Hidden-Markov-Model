@@ -40,7 +40,7 @@ class hmm:
 
   def train(self):
     # Initializing some book keeping variables. 
-    maxIters = 100
+    maxIters = 2000
     iters = 0 
     oldLogProb = -np.inf
     logProb = 0 
@@ -152,6 +152,43 @@ class hmm:
 
     return self.A, self.B, self.pi, logLikilihood
 
+  def predict(self, O):
+    # alpha pass
+    # compute alpha_0(i)
+    self.c[0] = 0 
+    for i in range(self.N):
+      self.alpha[0, i] = self.pi[i] * self.B[i, self.mapping[O[0]]] 
+    self.c[0] += self.alpha[0, i]    
+
+    # scale alpha_0(i)  
+    self.c[0] = 1.0/self.c[0]
+    for i in range(self.N):
+      self.alpha[0, i] = self.c[0] * self.alpha[0, i]
+
+    # compute alpha_t(i)
+    for t in range(1, self.T):
+      self.c[t] = 0 
+      for i in range(self.N):
+        self.alpha[t, i] = 0 
+
+        for j in range(self.N):
+	  self.alpha[t, i] = self.alpha[t, i] + self.alpha[t-1, j] * self.A[j, i] 
+
+        self.alpha[t, i] = self.alpha[t, i] * self.B[i, self.mapping[O[t]]]     
+        self.c[t] += self.alpha[t, i] 
+
+      # scale alpha_(t, i) 
+      self.c[t] = 1.0/self.c[t]  
+      for i in range(self.N):
+        self.alpha[t, i] = self.c[t] * self.alpha[t, i] 
+
+    # logLikilihood 
+    logLikilihood = 0.0
+    for i in range(self.N):
+      logLikilihood += self.alpha[self.T - 1, i] 
+
+    return logLikilihood
+
 
 if __name__ == "__main__":
   # Input an initial estimate of the perimeters A, B and prior
@@ -159,7 +196,7 @@ if __name__ == "__main__":
   second = np.array([1.0/27.0 for _ in range(27)])
   B = np.vstack((first, second))
   A = np.array([[0.47468, 0.52532],[0.51656,0.48344]])
-  pi = np.array([0.51316, 0.48684])
+  pi = np.array([0.51316, 0.4864])
 
   # Let's use the brown corpus for training 
   O = brown.words()
@@ -168,7 +205,7 @@ if __name__ == "__main__":
   exclude = set(string.punctuation)
   O = ''.join(ch for ch in O if ch not in exclude)
   O = ''.join(i for i in O if not i.isdigit())
-  O = O[:50000]
+  O = O[:1000]
 
   hmm1 = hmm(2, 27, len(O), O, A, B, pi)
   A, B, pi, likilihood = hmm1.train()
