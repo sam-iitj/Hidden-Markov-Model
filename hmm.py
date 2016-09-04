@@ -1,4 +1,6 @@
 from nltk.corpus import brown
+import matplotlib.pyplot as plt
+from tabulate import tabulate
 import numpy as np 
 import nltk 
 import string
@@ -25,10 +27,11 @@ class hmm:
     self.A = A
     self.B = B
     self.pi = pi
-    self.gamma_tij = np.zeros((self.T, self.N, self.N))
-    self.gamma_ti  = np.zeros((self.T, self.N))
-    self.alpha = np.zeros((T, N))  
-    self.beta = np.zeros((T, N))
+    self.gamma_tij = np.random.rand(self.T, self.N, self.N)
+    self.gamma_ti  = np.random.rand(self.T, self.N)
+    self.alpha = np.random.rand(T, N)  
+    self.beta = np.random.rand(T, N)
+    self.c = [0.0 for _ in range(self.T)]
     self.mapping = {}
     elements = string.ascii_uppercase.lower()
     for i in range(len(elements)):
@@ -37,28 +40,30 @@ class hmm:
 
   def train(self):
     # Initializing some book keeping variables. 
-    maxIters = 1000
+    maxIters = 100
     iters = 0 
     oldLogProb = -np.inf
     logProb = 0 
+    logLikilihood = []
 
-    while iters < maxIters and logProb > oldLogProb:
-      oldLogProb = logProb
+    while iters < maxIters:
+      #oldLogProb = logProb
   
       # alpha pass
       # compute alpha_0(i)
-      c = [0.0 for _ in range(self.T)]
+      self.c[0] = 0 
       for i in range(self.N):
-        self.alpha[0, i] = self.pi[i] * self.B[i, self.mapping[O[0]]] 
-        c[0] = c[0] + self.alpha[0, i]    
+        self.alpha[0, i] = self.pi[i] * self.B[i, self.mapping[self.O[0]]] 
+        self.c[0] += self.alpha[0, i]    
 
       # scale alpha_0(i)  
-      c[0] = 1.0/c[0]
+      self.c[0] = 1.0/self.c[0]
       for i in range(self.N):
-	self.alpha[0, i] = c[0] * self.alpha[0, i]
+	self.alpha[0, i] = self.c[0] * self.alpha[0, i]
 
       # compute alpha_t(i)
       for t in range(1, self.T):
+        self.c[t] = 0 
 	for i in range(self.N):
 	  self.alpha[t, i] = 0 
 
@@ -66,16 +71,16 @@ class hmm:
 	    self.alpha[t, i] = self.alpha[t, i] + self.alpha[t-1, j] * self.A[j, i] 
 
 	  self.alpha[t, i] = self.alpha[t, i] * self.B[i, self.mapping[self.O[t]]]     
-	  c[t] = c[t] + self.alpha[t, i] 
+	  self.c[t] += self.alpha[t, i] 
 
 	# scale alpha_(t, i) 
-	c[t] = 1.0/c[t]  
+	self.c[t] = 1.0/self.c[t]  
 	for i in range(self.N):
-	  self.alpha[t, i] = c[t] * self.alpha[t, i]   
+	  self.alpha[t, i] = self.c[t] * self.alpha[t, i]   
 
       # setting beta_t-1 = 1 scaled by C_(T-1).
       for i in range(self.N):
-	self.beta[self.T-1, i] = c[self.T - 1]
+	self.beta[self.T-1, i] = self.c[self.T - 1]
 
       # beta - pass
       for t in range(self.T - 2, 0, -1):
@@ -83,7 +88,7 @@ class hmm:
 	  self.beta[t, i] = 0 
 	  for j in range(self.N):
 	    self.beta[t, i] = self.beta[t, i] + self.A[i, j]*self.B[j,self.mapping[self.O[t+1]]]*self.beta[t+1,j]
-	  self.beta[t, i] = c[t] * self.beta[t, i] 
+	  self.beta[t, i] = self.c[t] * self.beta[t, i] 
 
       # compute gamma_(i, j) and gamma_t_i 
       for t in range(self.T - 1):
@@ -133,8 +138,9 @@ class hmm:
       # Compute log[P[O/lambda]]
       logProb = 0 
       for i in range(self.T):
-	logProb = logProb + np.log(c[t])
+	logProb = logProb + np.log(self.c[t])
       logProb = -logProb 
+      logLikilihood.append(logProb)
       iters += 1
 
       # Print the current values of the lambda = (A, B, pi)
@@ -144,7 +150,7 @@ class hmm:
       print self.pi
       print logProb
 
-    return self.A, self.B, self.pi
+    return self.A, self.B, self.pi, logLikilihood
 
 
 if __name__ == "__main__":
@@ -165,8 +171,16 @@ if __name__ == "__main__":
   O = O[:50000]
 
   hmm1 = hmm(2, 27, len(O), O, A, B, pi)
-  A, B, pi = hmm1.train()
+  A, B, pi, likilihood = hmm1.train()
 
-  pprint.pprint(hmm1.pi)
-  pprint.pprint(hmm1.A)
-  pprint.pprint(hmm1.B)
+  print "\n\n"
+  print O 
+  pprint.pprint(pi)
+  pprint.pprint(A)
+  pprint.pprint(B.T)
+  print "\n\n"
+  print tabulate(zip([x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])], B.T), headers=["Character", "Probability of being in each state"])
+  
+  x = [ i + 1 for i in range(len(likilihood))]
+  plt.plot(x, likilihood)
+  plt.show()
