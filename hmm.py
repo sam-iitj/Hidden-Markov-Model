@@ -43,6 +43,8 @@ class hmm:
     logProb = 0 
 
     while iters < maxIters and logProb > oldLogProb:
+      oldLogProb = logProb
+  
       # alpha pass
       # compute alpha_0(i)
       c = [0.0 for _ in range(self.T)]
@@ -133,8 +135,10 @@ class hmm:
       for i in range(self.T):
 	logProb = logProb + np.log(c[t])
       logProb = -logProb 
-
       iters += 1
+
+      # Print the current values of the lambda = (A, B, pi)
+      print "\n\nIteration Number : ", iters 
       print self.A
       print self.B.T
       print self.pi
