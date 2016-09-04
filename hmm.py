@@ -40,7 +40,7 @@ class hmm:
 
   def train(self):
     # Initializing some book keeping variables. 
-    maxIters = 2000
+    maxIters = 1000
     iters = 0 
     oldLogProb = -np.inf
     logProb = 0 
@@ -220,4 +220,7 @@ if __name__ == "__main__":
   
   x = [ i + 1 for i in range(len(likilihood))]
   plt.plot(x, likilihood)
+  plt.xlabel("Number of iterations")
+  plt.ylabel("Log likilihood")
+  plt.show()
   plt.show()
