@@ -40,7 +40,7 @@ class hmm:
 
   def train(self):
     # Initializing some book keeping variables. 
-    maxIters = 1000
+    maxIters = 100
     iters = 0 
     oldLogProb = -np.inf
     logProb = 0 
@@ -205,7 +205,7 @@ if __name__ == "__main__":
   exclude = set(string.punctuation)
   O = ''.join(ch for ch in O if ch not in exclude)
   O = ''.join(i for i in O if not i.isdigit())
-  O = O[:1000]
+  O = O[:5000]
 
   hmm1 = hmm(2, 27, len(O), O, A, B, pi)
   A, B, pi, likilihood = hmm1.train()
