@@ -73,6 +73,7 @@ This python program generated a observation sequence using the brown dataset fro
 
 # Running HMM with training size of 80000 characters 
 # Cluster plot showing clusters for each character
+This cluster plot makes lot of intiutive sense, since all the vowels are clustered together. Even the "u" character which didn't came in the first cluster looks quite close to position of other vowels in the plot like: "a", "e", "i", "o" and space character. 
 ![myimage-alt-tag](figure_3.png)
 
 # Probability table 
