@@ -105,6 +105,10 @@ This python program generated a observation sequence using the brown dataset fro
 | y           | [ 0.01803454  0.00704432]            |
 | z           | [  1.09318883e-03   3.58543607e-34]  |
 |             | [ 0.08702928  0.29608499]            |
+
+# Cluster plot
+![myimage-alt-tag](figure_4.png)
+
 # Cluster Assignment table 
 | Character   |   Cluster Assignmment |
 |:------------|----------------------:|
