@@ -261,7 +261,7 @@ if __name__ == "__main__":
               label="cluster 2")
 
   for i in range(B.shape[0]):
-    plt.text(B[i, 0] + 0.001, B[i, 1] + 0.001, [x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])][i])
+    plt.text(B[i, 0] + 0.003, B[i, 1] + 0.003, [x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])][i])
 
   plt.legend()
   plt.grid()
