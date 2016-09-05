@@ -36,6 +36,9 @@ This python program generated a observation sequence using the brown dataset fro
 | z           | [ 0.00081861  0.00078171]            |
 |             | [ 0.18097802  0.18815976]            |
 
+# Clustering plot after k-means algorithm on the final B matrix 
+![myimage-alt-tag](figure_2.png)
+
 # With the training set of size 5000, hmm was able to cluster a, e, i, o, t and space character together. It makes intitutive sense, except for the "t" character.
 
 | Character   |   Cluster Assignmment |
