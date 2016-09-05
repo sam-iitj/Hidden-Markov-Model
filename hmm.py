@@ -1,6 +1,7 @@
 from nltk.corpus import brown
 import matplotlib.pyplot as plt
 from tabulate import tabulate
+from sklearn.cluster import KMeans
 import numpy as np 
 import nltk 
 import string
@@ -45,10 +46,11 @@ class hmm:
     oldLogProb = -np.inf
     logProb = 0 
     logLikilihood = []
+    flag = False
 
-    while iters < maxIters:
-      #oldLogProb = logProb
-  
+    while iters < maxIters and logProb > oldLogProb:
+      if flag:
+        oldLogProb = logProb
       # alpha pass
       # compute alpha_0(i)
       self.c[0] = 0 
@@ -141,6 +143,8 @@ class hmm:
 	logProb = logProb + np.log(self.c[t])
       logProb = -logProb 
       logLikilihood.append(logProb)
+      if iters >= 5:
+        flag = True
       iters += 1
 
       # Print the current values of the lambda = (A, B, pi)
@@ -191,12 +195,15 @@ class hmm:
 
 
 if __name__ == "__main__":
+  # Seeding the numpy random generator 
+  np.random.seed(0)
+
   # Input an initial estimate of the perimeters A, B and prior
-  first = np.array([1.0/27.0 for _ in range(27)])
-  second = np.array([1.0/27.0 for _ in range(27)])
-  B = np.vstack((first, second))
-  A = np.array([[0.47468, 0.52532],[0.51656,0.48344]])
-  pi = np.array([0.51316, 0.4864])
+  B = np.vstack((np.random.dirichlet(np.ones(27),size=1), \
+                 np.random.dirichlet(np.ones(27),size=1)))
+  A = np.array([[0.47468, 0.52532],
+                 [0.51656, 0.48344]])
+  pi = np.array([0.51316, 0.48684])
 
   # Let's use the brown corpus for training 
   O = brown.words()
@@ -207,16 +214,16 @@ if __name__ == "__main__":
   O = ''.join(i for i in O if not i.isdigit())
   O = O[:5000]
 
-  hmm1 = hmm(2, 27, len(O), O, A, B, pi)
+  hmm1 = hmm(pi.shape[0], 27, len(O), O, A, B, pi)
   A, B, pi, likilihood = hmm1.train()
 
   print "\n\n"
-  print O 
   pprint.pprint(pi)
   pprint.pprint(A)
   pprint.pprint(B.T)
   print "\n\n"
-  print tabulate(zip([x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])], B.T), headers=["Character", "Probability of being in each state"], tablefmt="pipe")
+  print tabulate(zip([x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])], B.T), \
+                 headers=["Character", "Probability of being in each state"], tablefmt="pipe")
 
   x = [ i + 1 for i in range(len(likilihood))]
   plt.plot(x, likilihood)
@@ -224,3 +231,35 @@ if __name__ == "__main__":
   plt.ylabel("Log likilihood")
   plt.show()
   plt.show()
+
+  # Interpreting the results using clustering 
+  B = B.T
+  km = KMeans(n_clusters=2, \
+              init="k-means++", \
+              n_init=10, \
+              max_iter=10, \
+              tol=1e-04, \
+              random_state=0)
+  y_km = km.fit_predict(B)
+  
+  print tabulate(zip([x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])], y_km),\
+                 headers=["Character", "Cluster Assignmment"],tablefmt="pipe")
+
+  # Plotting the alphabets to their clusters 
+  plt.scatter(B[y_km==0, 0], 
+              B[y_km==0, 1], 
+              s=50, 
+              c="lightgreen", 
+              marker="s", 
+              label="cluster 1")
+
+  plt.scatter(B[y_km==1, 0], 
+              B[y_km==1, 1], 
+              s=50, 
+              c="orange", 
+              marker="o", 
+              label="cluster 2")
+  plt.legend()
+  plt.grid()
+  plt.show()
+
