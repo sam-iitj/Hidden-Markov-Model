@@ -212,7 +212,7 @@ if __name__ == "__main__":
   exclude = set(string.punctuation)
   O = ''.join(ch for ch in O if ch not in exclude)
   O = ''.join(i for i in O if not i.isdigit())
-  O = O[:5000]
+  O = O[:80000]
 
   hmm1 = hmm(pi.shape[0], 27, len(O), O, A, B, pi)
   A, B, pi, likilihood = hmm1.train()
@@ -259,6 +259,10 @@ if __name__ == "__main__":
               c="orange", 
               marker="o", 
               label="cluster 2")
+
+  for i in range(B.shape[0]):
+    plt.text(B[i, 0] + 0.001, B[i, 1] + 0.001, [x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])][i])
+
   plt.legend()
   plt.grid()
   plt.show()
