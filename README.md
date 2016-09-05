@@ -3,7 +3,7 @@ In this repository, I am implementing hidden markov model using the paper from h
 This python program generated a observation sequence using the brown dataset from the nltk package in python. The task is to apply HMM using some initial estimates of A, B and prior, and improving the loglikilihood of the observation using the current parameters of the model. I have implemented forward backward algorithm to estimate the alpha and beta parameters. I have also implemented a way to update the input perimeter values. 
 
 # Log Likilihood Plot for each iteration
-![myimage-alt-tag](figure_1.png)
+![myimage-alt-tag](images/figure_1.png)
 
 # Probability of each character in each state 
 | Character   | Probability of being in each state   |
@@ -37,7 +37,7 @@ This python program generated a observation sequence using the brown dataset fro
 |             | [ 0.18097802  0.18815976]            |
 
 # Clustering plot after k-means algorithm on the final B matrix 
-![myimage-alt-tag](figure_2.png)
+![myimage-alt-tag](images/figure_2.png)
 
 # With the training set of size 5000, hmm was able to cluster a, e, i, o, t and space character together. It makes intitutive sense, except for the "t" character.
 
@@ -74,7 +74,7 @@ This python program generated a observation sequence using the brown dataset fro
 # Running HMM with training size of 80000 characters 
 # Cluster plot showing clusters for each character
 This cluster plot makes lot of intiutive sense, since all the vowels are clustered together. Even the "u" character which didn't came in the first cluster looks quite close to position of other vowels in the plot like: "a", "e", "i", "o" and space character. 
-![myimage-alt-tag](figure_3.png)
+![myimage-alt-tag](images/figure_3.png)
 
 # Probability table 
 | Character   | Probability of being in each state   |
@@ -108,7 +108,7 @@ This cluster plot makes lot of intiutive sense, since all the vowels are cluster
 |             | [ 0.08702928  0.29608499]            |
 
 # Cluster plot
-![myimage-alt-tag](figure_4.png)
+![myimage-alt-tag](images/figure_4.png)
 
 # Cluster Assignment table 
 | Character   |   Cluster Assignmment |
