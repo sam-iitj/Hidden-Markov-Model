@@ -216,7 +216,7 @@ if __name__ == "__main__":
   pprint.pprint(A)
   pprint.pprint(B.T)
   print "\n\n"
-  print tabulate(zip([x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])], B.T), headers=["Character", "Probability of being in each state"], tablefmt="fancy_grid")
+  print tabulate(zip([x[0] for x in sorted(hmm1.mapping.items(), key=lambda x:x[1])], B.T), headers=["Character", "Probability of being in each state"], tablefmt="grid")
 
   x = [ i + 1 for i in range(len(likilihood))]
   plt.plot(x, likilihood)
