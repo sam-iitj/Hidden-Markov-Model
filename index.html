@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Hidden-markov-model : Experiments with hidden markov model for understanding brown corpus text. ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Hidden-markov-model</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/sam-iitj/Hidden-Markov-Model">View on GitHub</a>
+
+          <h1 id="project_title">Hidden-markov-model</h1>
+          <h2 id="project_tagline">Experiments with hidden markov model for understanding brown corpus text. </h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/sam-iitj/Hidden-Markov-Model/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/sam-iitj/Hidden-Markov-Model/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="hidden-markov-model" class="anchor" href="#hidden-markov-model" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hidden-Markov-Model</h1>
+
+<p>In this repository, I am implementing hidden markov model using the paper from <a href="https://www.cs.sjsu.edu/%7Estamp/RUA/HMM.pdf">https://www.cs.sjsu.edu/~stamp/RUA/HMM.pdf</a>.
+This python program generated a observation sequence using the brown dataset from the nltk package in python. The task is to apply HMM using some initial estimates of A, B and prior, and improving the loglikilihood of the observation using the current parameters of the model. I have implemented forward backward algorithm to estimate the alpha and beta parameters. I have also implemented a way to update the input perimeter values. </p>
+
+<h1>
+<a id="log-likilihood-plot-for-each-iteration" class="anchor" href="#log-likilihood-plot-for-each-iteration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Log Likilihood Plot for each iteration</h1>
+
+<p><img src="images/figure_1.png" alt="myimage-alt-tag"></p>
+
+<h1>
+<a id="probability-of-each-character-in-each-state" class="anchor" href="#probability-of-each-character-in-each-state" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Probability of each character in each state</h1>
+
+<table>
+<thead>
+<tr>
+<th align="left">Character</th>
+<th align="left">Probability of being in each state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">a</td>
+<td align="left">[ 0.06536201  0.0670236 ]</td>
+</tr>
+<tr>
+<td align="left">b</td>
+<td align="left">[ 0.00913471  0.0088676 ]</td>
+</tr>
+<tr>
+<td align="left">c</td>
+<td align="left">[ 0.02573597  0.02546636]</td>
+</tr>
+<tr>
+<td align="left">d</td>
+<td align="left">[ 0.03675014  0.03565931]</td>
+</tr>
+<tr>
+<td align="left">e</td>
+<td align="left">[ 0.10327193  0.10233617]</td>
+</tr>
+<tr>
+<td align="left">f</td>
+<td align="left">[ 0.0233564   0.02264972]</td>
+</tr>
+<tr>
+<td align="left">g</td>
+<td align="left">[ 0.01320878  0.0127948 ]</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="left">[ 0.03506467  0.04088491]</td>
+</tr>
+<tr>
+<td align="left">i</td>
+<td align="left">[ 0.05899218  0.06257677]</td>
+</tr>
+<tr>
+<td align="left">j</td>
+<td align="left">[ 0.00633337  0.00606892]</td>
+</tr>
+<tr>
+<td align="left">k</td>
+<td align="left">[ 0.00222697  0.00217349]</td>
+</tr>
+<tr>
+<td align="left">l</td>
+<td align="left">[ 0.03212009  0.0326751 ]</td>
+</tr>
+<tr>
+<td align="left">m</td>
+<td align="left">[ 0.02159236  0.02160751]</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td align="left">[ 0.05354537  0.05444682]</td>
+</tr>
+<tr>
+<td align="left">o</td>
+<td align="left">[ 0.05694438  0.05824435]</td>
+</tr>
+<tr>
+<td align="left">p</td>
+<td align="left">[ 0.02136761  0.02103527]</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="left">[ 0.00040097  0.00039905]</td>
+</tr>
+<tr>
+<td align="left">r</td>
+<td align="left">[ 0.05509748  0.05569732]</td>
+</tr>
+<tr>
+<td align="left">s</td>
+<td align="left">[ 0.04601189  0.04638487]</td>
+</tr>
+<tr>
+<td align="left">t</td>
+<td align="left">[ 0.09399244  0.07576546]</td>
+</tr>
+<tr>
+<td align="left">u</td>
+<td align="left">[ 0.02482068  0.0255728 ]</td>
+</tr>
+<tr>
+<td align="left">v</td>
+<td align="left">[ 0.00626115  0.0061399 ]</td>
+</tr>
+<tr>
+<td align="left">w</td>
+<td align="left">[ 0.01085703  0.01034739]</td>
+</tr>
+<tr>
+<td align="left">x</td>
+<td align="left">[ 0.00155239  0.00164679]</td>
+</tr>
+<tr>
+<td align="left">y</td>
+<td align="left">[ 0.01420238  0.01459423]</td>
+</tr>
+<tr>
+<td align="left">z</td>
+<td align="left">[ 0.00081861  0.00078171]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">[ 0.18097802  0.18815976]</td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="clustering-plot-after-k-means-algorithm-on-the-final-b-matrix" class="anchor" href="#clustering-plot-after-k-means-algorithm-on-the-final-b-matrix" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Clustering plot after k-means algorithm on the final B matrix</h1>
+
+<p><img src="images/figure_2.png" alt="myimage-alt-tag"></p>
+
+<h1>
+<a id="with-the-training-set-of-size-5000-hmm-was-able-to-cluster-a-e-i-o-t-and-space-character-together-it-makes-intitutive-sense-except-for-the-t-character" class="anchor" href="#with-the-training-set-of-size-5000-hmm-was-able-to-cluster-a-e-i-o-t-and-space-character-together-it-makes-intitutive-sense-except-for-the-t-character" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With the training set of size 5000, hmm was able to cluster a, e, i, o, t and space character together. It makes intitutive sense, except for the "t" character.</h1>
+
+<table>
+<thead>
+<tr>
+<th align="left">Character</th>
+<th align="right">Cluster Assignmment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">a</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">b</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">c</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">d</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">e</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">f</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">g</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">i</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">j</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">k</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">l</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">m</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">o</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">p</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">r</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">s</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">t</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">u</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">v</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">w</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">x</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">y</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">z</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="running-hmm-with-training-size-of-80000-characters" class="anchor" href="#running-hmm-with-training-size-of-80000-characters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running HMM with training size of 80000 characters</h1>
+
+<h1>
+<a id="cluster-plot-showing-clusters-for-each-character" class="anchor" href="#cluster-plot-showing-clusters-for-each-character" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cluster plot showing clusters for each character</h1>
+
+<p>This cluster plot makes lot of intiutive sense, since all the vowels are clustered together. Even the "u" character which didn't came in the first cluster looks quite close to position of other vowels in the plot like: "a", "e", "i", "o" and space character. 
+<img src="images/figure_3.png" alt="myimage-alt-tag"></p>
+
+<h1>
+<a id="probability-table" class="anchor" href="#probability-table" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Probability table</h1>
+
+<table>
+<thead>
+<tr>
+<th align="left">Character</th>
+<th align="left">Probability of being in each state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">a</td>
+<td align="left">[  3.20560207e-06   1.40629926e-01]</td>
+</tr>
+<tr>
+<td align="left">b</td>
+<td align="left">[  2.21727202e-02   1.28896786e-09]</td>
+</tr>
+<tr>
+<td align="left">c</td>
+<td align="left">[ 0.05317007  0.00049236]</td>
+</tr>
+<tr>
+<td align="left">d</td>
+<td align="left">[  6.31235790e-02   2.21467956e-05]</td>
+</tr>
+<tr>
+<td align="left">e</td>
+<td align="left">[  5.67438227e-09   2.18188900e-01]</td>
+</tr>
+<tr>
+<td align="left">f</td>
+<td align="left">[  3.30333148e-02   1.30105542e-13]</td>
+</tr>
+<tr>
+<td align="left">g</td>
+<td align="left">[ 0.02175535  0.00573721]</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="left">[  7.20553731e-02   3.32645685e-08]</td>
+</tr>
+<tr>
+<td align="left">i</td>
+<td align="left">[  1.29141467e-07   1.24679232e-01]</td>
+</tr>
+<tr>
+<td align="left">j</td>
+<td align="left">[  3.80239594e-03   1.02928852e-19]</td>
+</tr>
+<tr>
+<td align="left">k</td>
+<td align="left">[ 0.00597973  0.00246249]</td>
+</tr>
+<tr>
+<td align="left">l</td>
+<td align="left">[  6.66429514e-02   4.61246490e-05]</td>
+</tr>
+<tr>
+<td align="left">m</td>
+<td align="left">[  3.92597381e-02   2.99901464e-12]</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td align="left">[  1.08653464e-01   1.84441392e-11]</td>
+</tr>
+<tr>
+<td align="left">o</td>
+<td align="left">[  1.57826854e-08   1.32168559e-01]</td>
+</tr>
+<tr>
+<td align="left">p</td>
+<td align="left">[ 0.03318497  0.00262699]</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="left">[  1.28330860e-03   3.11023203e-11]</td>
+</tr>
+<tr>
+<td align="left">r</td>
+<td align="left">[  9.79829905e-02   1.33195553e-13]</td>
+</tr>
+<tr>
+<td align="left">s</td>
+<td align="left">[ 0.10387844  0.00039363]</td>
+</tr>
+<tr>
+<td align="left">t</td>
+<td align="left">[ 0.12508387  0.02533221]</td>
+</tr>
+<tr>
+<td align="left">u</td>
+<td align="left">[  9.54830306e-05   4.40908832e-02]</td>
+</tr>
+<tr>
+<td align="left">v</td>
+<td align="left">[  1.54947635e-02   4.68690135e-26]</td>
+</tr>
+<tr>
+<td align="left">w</td>
+<td align="left">[  2.34085000e-02   1.29059432e-11]</td>
+</tr>
+<tr>
+<td align="left">x</td>
+<td align="left">[  3.77863097e-03   5.53726380e-18]</td>
+</tr>
+<tr>
+<td align="left">y</td>
+<td align="left">[ 0.01803454  0.00704432]</td>
+</tr>
+<tr>
+<td align="left">z</td>
+<td align="left">[  1.09318883e-03   3.58543607e-34]</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">[ 0.08702928  0.29608499]</td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="cluster-plot" class="anchor" href="#cluster-plot" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cluster plot</h1>
+
+<p><img src="images/figure_4.png" alt="myimage-alt-tag"></p>
+
+<h1>
+<a id="cluster-assignment-table" class="anchor" href="#cluster-assignment-table" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cluster Assignment table</h1>
+
+<table>
+<thead>
+<tr>
+<th align="left">Character</th>
+<th align="right">Cluster Assignmment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">a</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">b</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">c</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">d</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">e</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">f</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">g</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">h</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">i</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">j</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">k</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">l</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">m</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">o</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">p</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">q</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">r</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">s</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">t</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">u</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">v</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">w</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">x</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">y</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">z</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Hidden-markov-model maintained by <a href="https://github.com/sam-iitj">sam-iitj</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
